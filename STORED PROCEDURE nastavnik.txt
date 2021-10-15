@@ -1,0 +1,55 @@
+USE [SE2Fakultet]
+GO
+
+CREATE PROCEDURE [DajSveNastavnike]
+AS
+Select * from Nastavnik
+GO
+
+CREATE PROCEDURE [DajSveNastavnikeSaJoin] 
+AS
+Select Nastavnik.JMBG, Nastavnik.Prezime, Nastavnik.Ime, Zvanje.Naziv as NazivZvanja from Nastavnik inner join Zvanje on Nastavnik.IdZvanja = Zvanje.Sifra
+GO
+
+CREATE PROCEDURE [DajNastavnikaPoPrezimenu] @NastavnikPrezime nvarchar(30)
+AS
+select NASTAVNIK.JMBG, NASTAVNIK.Ime, NASTAVNIK.Prezime, ZVANJE.Naziv as NazivZvanja from NASTAVNIK inner join ZVANJE on ZVANJE.Sifra = NASTAVNIK.IDZvanja where NASTAVNIK.Prezime = @NastavnikPrezime
+
+CREATE PROCEDURE [DodajNovogNastavnika]( 
+@JMBG int,
+@Prezime nvarchar(40),
+@Ime nvarchar(40),
+@IDZvanja char(3))
+AS
+BEGIN
+Insert into Nastavnik(JMBG, Prezime, Ime, IDZvanja) values (@JMBG, @Prezime, @Ime, @IDZvanja)
+END
+GO
+
+CREATE PROCEDURE [ObrisiNastavnika](
+@JMBG int)
+AS
+BEGIN
+Delete from Nastavnik where JMBG=@JMBG
+END
+GO
+
+CREATE PROCEDURE [IzmeniNastavnika](
+@StariJMBG int,
+@JMBG int,
+@Prezime nvarchar(40),
+@Ime nvarchar(40),
+@IDZvanja char(3))
+AS
+BEGIN
+Update Nastavnik set JMBG=@JMBG, Prezime=@Prezime, Ime=@Ime, IDZvanja=@IDZvanja where JMBG=@StariJMBG
+END
+GO
+
+
+CREATE PROCEDURE [DajSveNastavnikeSaJoinSifromZvanja] 
+AS
+Select Nastavnik.JMBG, Nastavnik.Prezime, Nastavnik.Ime, Zvanje.Naziv as NazivZvanja, Zvanje.Sifra as SifraZvanja  from Nastavnik inner join Zvanje on Nastavnik.IdZvanja = Zvanje.Sifra
+GO
+
+
